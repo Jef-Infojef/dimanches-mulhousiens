@@ -10,6 +10,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { ModeToggle } from "@/components/mode-toggle";
+import { UserNav } from "./UserNav";
 
 export function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -45,6 +46,7 @@ export function Header() {
 
         <div className="flex items-center gap-2 md:gap-4">
           <ModeToggle />
+          <UserNav />
           <Button asChild variant="default" className="hidden sm:flex rounded-full px-6">
             <Link href="/adherer">Devenir Exposant</Link>
           </Button>

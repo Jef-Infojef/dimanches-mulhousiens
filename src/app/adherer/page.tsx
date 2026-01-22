@@ -21,6 +21,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useState } from "react";
 import { CheckCircle2, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import Link from "next/link";
 
 export const dynamic = "force-dynamic";
 
@@ -73,7 +74,7 @@ export default function AdhererPage() {
       if (supabaseError) throw supabaseError;
       
       setIsSuccess(true);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Erreur Supabase:", err);
       setError("Une erreur est survenue lors de l'envoi de votre dossier. Veuillez réessayer plus tard.");
     } finally {
@@ -96,7 +97,7 @@ export default function AdhererPage() {
           Merci pour votre intérêt. Notre équipe examinera votre dossier et reviendra vers vous par email dans les plus brefs délais.
         </p>
         <Button asChild variant="outline">
-          <a href="/">Retour à l'accueil</a>
+          <Link href="/">Retour à l&apos;accueil</Link>
         </Button>
       </div>
     );
@@ -106,7 +107,7 @@ export default function AdhererPage() {
     <div className="container mx-auto px-4 py-16 md:py-24">
       <div className="max-w-3xl mx-auto">
         <div className="mb-12 text-center">
-          <h1 className="text-4xl font-bold mb-4">Dossier d'Inscription</h1>
+          <h1 className="text-4xl font-bold mb-4">Dossier d&apos;Inscription</h1>
           <p className="text-zinc-600 dark:text-zinc-400">
             Exposez vos créations lors des Dimanches Mulhousiens 2026. Remplissez le formulaire ci-dessous pour soumettre votre candidature.
           </p>
@@ -116,7 +117,7 @@ export default function AdhererPage() {
           <CardHeader>
             <CardTitle>Vos Informations</CardTitle>
             <CardDescription>
-              Ces informations nous permettront d'étudier la cohérence de votre stand avec l'esprit de l'événement.
+              Ces informations nous permettront d&apos;étudier la cohérence de votre stand avec l&apos;esprit de l&apos;événement.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -161,7 +162,7 @@ export default function AdhererPage() {
                   name="activity"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Type d'activité</FormLabel>
+                      <FormLabel>Type d&apos;activité</FormLabel>
                       <FormControl>
                         <Input placeholder="Ex: Céramique, Joaillerie, Illustration..." {...field} />
                       </FormControl>
@@ -233,10 +234,10 @@ export default function AdhererPage() {
                       </FormControl>
                       <div className="space-y-1 leading-none">
                         <FormLabel>
-                          J'accepte les conditions d'exposition
+                          J&apos;accepte les conditions d&apos;exposition
                         </FormLabel>
                         <FormDescription>
-                          Je m'engage à être présent les dimanches sélectionnés de 10h à 18h.
+                          Je m&apos;engage à être présent les dimanches sélectionnés de 10h à 18h.
                         </FormDescription>
                       </div>
                     </FormItem>

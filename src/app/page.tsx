@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Calendar, Palette, Hammer, Users, ArrowRight } from "lucide-react";
 import Link from "next/link";
-
 import {
   Accordion,
   AccordionContent,
@@ -55,7 +54,7 @@ export default function Home() {
               <span className="text-primary italic">Mulhousiens</span>
             </h1>
             <p className="mx-auto max-w-2xl text-lg text-zinc-600 dark:text-zinc-400 md:text-xl mb-10">
-              L'événement incontournable des créateurs et artisans. Un rendez-vous mensuel au cœur de la ville pour célébrer le savoir-faire local.
+              L&apos;événement incontournable des créateurs et artisans. Un rendez-vous mensuel au cœur de la ville pour célébrer le savoir-faire local.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Button size="lg" className="rounded-full px-8 gap-2" asChild>
@@ -104,8 +103,8 @@ export default function Home() {
       {/* Spirit Section - Bento Grid */}
       <section className="container mx-auto px-4 py-12">
         <div className="mb-16 text-center">
-          <h2 className="text-3xl font-bold mb-4 md:text-4xl">L'Esprit des Dimanches</h2>
-          <p className="text-zinc-600 dark:text-zinc-400">Une immersion dans l'artisanat et la création mulhousienne.</p>
+          <h2 className="text-3xl font-bold mb-4 md:text-4xl">L&apos;Esprit des Dimanches</h2>
+          <p className="text-zinc-600 dark:text-zinc-400">Une immersion dans l&apos;artisanat et la création mulhousienne.</p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-4 h-[800px] md:h-[600px]">
           <div className="md:col-span-2 md:row-span-2 relative overflow-hidden rounded-3xl bg-orange-100 dark:bg-orange-950/20 group">
@@ -113,7 +112,7 @@ export default function Home() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
             <div className="absolute bottom-8 left-8 text-white">
               <h3 className="text-2xl font-bold">Artisanat Local</h3>
-              <p className="text-zinc-200">Le fruit d'un travail passionné.</p>
+              <p className="text-zinc-200">Le fruit d&apos;un travail passionné.</p>
             </div>
           </div>
           <div className="md:col-span-1 md:row-span-1 relative overflow-hidden rounded-3xl bg-blue-100 dark:bg-blue-950/20 group">
@@ -133,7 +132,7 @@ export default function Home() {
           </div>
           <div className="md:col-span-1 md:row-span-1 relative overflow-hidden rounded-3xl bg-green-100 dark:bg-green-950/20 group">
              <div className="absolute inset-0 flex items-center justify-center p-6 text-center">
-               <p className="text-zinc-800 dark:text-zinc-200 font-medium italic">"Une parenthèse artistique au coeur de Mulhouse"</p>
+               <p className="text-zinc-800 dark:text-zinc-200 font-medium italic">&quot;Une parenthèse artistique au coeur de Mulhouse&quot;</p>
              </div>
           </div>
         </div>
@@ -173,7 +172,7 @@ export default function Home() {
       {/* Testimonials Section */}
       <section className="bg-zinc-50 dark:bg-zinc-900/50 py-24">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-16 text-center md:text-4xl">Ils ont aimé l'édition précédente</h2>
+          <h2 className="text-3xl font-bold mb-16 text-center md:text-4xl">Ils ont aimé l&apos;édition précédente</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
@@ -206,7 +205,7 @@ export default function Home() {
                       <p className="text-sm text-zinc-500">{t.role}</p>
                     </div>
                   </div>
-                  <p className="italic text-zinc-600 dark:text-zinc-400">"{t.content}"</p>
+                  <p className="italic text-zinc-600 dark:text-zinc-400">&quot;{t.content}&quot;</p>
                 </CardContent>
               </Card>
             ))}
@@ -234,7 +233,7 @@ export default function Home() {
         <div className="rounded-3xl bg-primary/5 border-2 border-primary/10 p-12 md:p-20">
           <h2 className="text-3xl font-bold mb-6 md:text-4xl">Vous êtes un créateur ?</h2>
           <p className="mx-auto max-w-2xl text-lg text-zinc-600 dark:text-zinc-400 mb-10">
-            Rejoignez l'aventure et donnez de la visibilité à votre travail. Nous recherchons des artistes et artisans passionnés pour enrichir cette édition 2026.
+            Rejoignez l&apos;aventure et donnez de la visibilité à votre travail. Nous recherchons des artistes et artisans passionnés pour enrichir cette édition 2026.
           </p>
           <Button size="lg" className="rounded-full px-12 text-lg" asChild>
             <Link href="/adherer">Candidater maintenant</Link>

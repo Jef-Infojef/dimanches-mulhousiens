@@ -1,16 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Loader2, Mail, Phone, Globe, ExternalLink } from "lucide-react";
@@ -35,13 +26,7 @@ export default function AdminPage() {
   const [authenticated, setAuthenticated] = useState(false);
   const [password, setPassword] = useState("");
 
-  useEffect(() => {
-    if (authenticated) {
-      fetchCandidatures();
-    }
-  }, [authenticated]);
-
-  async function fetchCandidatures() {
+  const fetchCandidatures = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabase
       .from('candidatures')
@@ -54,7 +39,18 @@ export default function AdminPage() {
       setCandidatures(data || []);
     }
     setLoading(false);
-  }
+  }, []);
+
+  useEffect(() => {
+    let isMounted = true;
+    if (authenticated) {
+      const load = async () => {
+        if (isMounted) await fetchCandidatures();
+      };
+      load();
+    }
+    return () => { isMounted = false; };
+  }, [authenticated, fetchCandidatures]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();

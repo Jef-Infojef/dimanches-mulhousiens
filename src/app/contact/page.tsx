@@ -16,6 +16,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent } from "@/components/ui/card";
+import { createBrowserSupabaseClient } from "@/lib/supabase";
 import { useState } from "react";
 import { CheckCircle2, Loader2, Mail, MapPin, MessageSquare, Send } from "lucide-react";
 
@@ -29,6 +30,8 @@ const contactSchema = z.object({
 export default function ContactPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const supabase = createBrowserSupabaseClient();
 
   const form = useForm<z.infer<typeof contactSchema>>({
     resolver: zodResolver(contactSchema),
@@ -42,11 +45,21 @@ export default function ContactPage() {
 
   async function onSubmit(values: z.infer<typeof contactSchema>) {
     setIsSubmitting(true);
-    // Simulation d'envoi (peut être lié à Supabase ou un service de mail)
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    console.log(values);
-    setIsSubmitting(false);
-    setIsSuccess(true);
+    setError(null);
+    try {
+      const { error: supabaseError } = await supabase
+        .from('messages')
+        .insert([values]);
+
+      if (supabaseError) throw supabaseError;
+      
+      setIsSuccess(true);
+    } catch (err: any) {
+      console.error("Erreur d'envoi:", err);
+      setError("Une erreur est survenue lors de l'envoi. Si le problème persiste, utilisez l'email direct.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -106,6 +119,11 @@ export default function ContactPage() {
           <div className="lg:col-span-2">
             <Card className="border-none shadow-xl bg-white dark:bg-zinc-900 overflow-hidden">
               <CardContent className="p-8">
+                {error && (
+                  <div className="mb-6 p-4 bg-destructive/10 border border-destructive/20 text-destructive rounded-lg text-sm text-center">
+                    {error}
+                  </div>
+                )}
                 {isSuccess ? (
                   <motion.div 
                     initial={{ opacity: 0, scale: 0.9 }}

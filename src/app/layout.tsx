@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 import { ThemeProvider } from "@/components/theme-provider";
-import Link from "next/link";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,17 +53,7 @@ export default function RootLayout({
           <main className="pt-16">
             {children}
           </main>
-          <footer className="border-t py-12 bg-zinc-50 dark:bg-zinc-900">
-            <div className="container mx-auto px-4 text-center text-zinc-600 dark:text-zinc-400">
-              <p className="font-semibold text-zinc-900 dark:text-zinc-100 mb-2">Les Dimanches Mulhousiens</p>
-              <p>© 2026 - Tous droits réservés.</p>
-                          <div className="flex justify-center gap-6 mt-6">
-                            <a href="#" className="hover:text-primary transition-colors">Instagram</a>
-                            <a href="#" className="hover:text-primary transition-colors">Facebook</a>
-                            <Link href="/contact" className="hover:text-primary transition-colors">Contact</Link>
-                            <Link href="/mentions-legales" className="hover:text-primary transition-colors text-xs self-center">Mentions Légales</Link>
-                          </div>            </div>
-          </footer>
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

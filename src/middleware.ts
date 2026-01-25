@@ -27,7 +27,6 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Rafraîchir la session si nécessaire
   const { data: { user } } = await supabase.auth.getUser()
 
   // Protection des routes admin
@@ -36,7 +35,6 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL('/login', request.url))
     }
     
-    // Vérification du rôle admin (nécessite une requête à la table profiles)
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
@@ -45,13 +43,6 @@ export async function middleware(request: NextRequest) {
       
     if (profile?.role !== 'admin') {
       return NextResponse.redirect(new URL('/', request.url))
-    }
-  }
-
-  // Protection de l'espace exposant
-  if (request.nextUrl.pathname.startsWith('/mon-espace')) {
-    if (!user) {
-      return NextResponse.redirect(new URL('/login', request.url))
     }
   }
 

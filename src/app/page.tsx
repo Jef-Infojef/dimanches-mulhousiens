@@ -3,8 +3,10 @@
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Calendar, Palette, Hammer, Users, ArrowRight } from "lucide-react";
+import { Calendar, Palette, Hammer, Users, ArrowRight, Loader2, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
+import { createBrowserSupabaseClient } from "@/lib/supabase";
+import { useState } from "react";
 import {
   Accordion,
   AccordionContent,
@@ -39,6 +41,31 @@ const faqs = [
 ];
 
 export default function Home() {
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const supabase = createBrowserSupabaseClient();
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setNewsletterStatus('loading');
+    try {
+      const { error } = await supabase
+        .from('subscriptions')
+        .insert([{ email: newsletterEmail }]);
+      
+      if (error) throw error;
+      setNewsletterStatus('success');
+      setNewsletterEmail("");
+    } catch (err: any) {
+      console.error(err);
+      if (err.code === '23505') { // Code pour clé dupliquée (déjà inscrit)
+        setNewsletterStatus('success');
+      } else {
+        setNewsletterStatus('error');
+      }
+    }
+  };
+
   return (
     <div className="flex flex-col gap-20 pb-20">
       {/* Hero Section */}
@@ -226,6 +253,68 @@ export default function Home() {
             </AccordionItem>
           ))}
         </Accordion>
+      </section>
+
+      {/* Newsletter Section */}
+      <section className="bg-primary py-20 overflow-hidden relative">
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-10">
+            <div className="text-white flex-1 text-center md:text-left">
+              <h2 className="text-3xl font-bold mb-4">Restez informé</h2>
+              <p className="text-primary-foreground/80 text-lg">
+                Recevez les dernières actualités, les thèmes des prochains dimanches et les portraits de nos créateurs.
+              </p>
+            </div>
+            <div className="flex-1 w-full max-w-md">
+              {newsletterStatus === 'success' ? (
+                <div className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-3xl text-white flex items-center gap-4 animate-in fade-in zoom-in duration-300">
+                  <CheckCircle2 className="h-8 w-8 text-white shrink-0" />
+                  <div>
+                    <p className="font-bold">Vous êtes inscrit !</p>
+                    <p className="text-sm opacity-80">Merci de votre intérêt pour l&apos;événement.</p>
+                  </div>
+                </div>
+              ) : (
+                <form onSubmit={handleNewsletterSubmit} className="flex gap-2 p-2 bg-white/10 rounded-full backdrop-blur-md border border-white/20">
+                  <input 
+                    type="email" 
+                    placeholder="votre@email.com" 
+                    className="flex-1 bg-transparent border-none focus:outline-none px-4 text-white placeholder:text-white/50"
+                    value={newsletterEmail}
+                    onChange={(e) => setNewsletterEmail(e.target.value)}
+                    required
+                    disabled={newsletterStatus === 'loading'}
+                  />
+                  <Button 
+                    type="submit"
+                    className="bg-white text-primary hover:bg-zinc-100 rounded-full px-6"
+                    disabled={newsletterStatus === 'loading'}
+                  >
+                    {newsletterStatus === 'loading' ? <Loader2 className="h-4 w-4 animate-spin" /> : "S'inscrire"}
+                  </Button>
+                </form>
+              )}
+              {newsletterStatus === 'error' && (
+                <p className="text-white/80 text-xs mt-2 text-center">Une erreur est survenue. Réessayez plus tard.</p>
+              )}
+            </div>
+          </div>
+        </div>
+        {/* Decorative circle */}
+        <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[600px] h-[600px] bg-white/5 rounded-full blur-3xl" />
+      </section>
+
+      {/* Partners Section */}
+      <section className="py-20 bg-zinc-50 dark:bg-zinc-950/20">
+        <div className="container mx-auto px-4">
+          <p className="text-center text-zinc-500 font-medium uppercase tracking-widest text-xs mb-10">Ils soutiennent l&apos;artisanat local</p>
+          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 grayscale opacity-50 hover:grayscale-0 hover:opacity-100 transition-all duration-500">
+            <div className="font-black text-2xl text-zinc-400">MULHOUSE</div>
+            <div className="font-black text-2xl text-zinc-400">M2A</div>
+            <div className="font-black text-2xl text-zinc-400">CMA GRAND EST</div>
+            <div className="font-black text-2xl text-zinc-400">RÉGION GRAND EST</div>
+          </div>
+        </div>
       </section>
 
       {/* Call to Action for Exhibitors */}

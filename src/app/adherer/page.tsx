@@ -20,7 +20,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useState } from "react";
 import { CheckCircle2, Loader2 } from "lucide-react";
-import { supabase } from "@/lib/supabase";
+import { createBrowserSupabaseClient } from "@/lib/supabase";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
@@ -29,7 +29,7 @@ const formSchema = z.object({
   name: z.string().min(2, "Le nom est requis"),
   activity: z.string().min(3, "Veuillez décrire votre activité"),
   description: z.string().min(10, "La description doit faire au moins 10 caractères"),
-  website: z.string().url("URL invalide").optional().or(z.string().length(0)),
+  website: z.string().optional().or(z.string().length(0)),
   email: z.string().email("Email invalide"),
   phone: z.string().min(10, "Numéro de téléphone invalide"),
   acceptTerms: z.boolean().refine((val) => val === true, "Vous devez accepter les conditions"),
@@ -39,6 +39,7 @@ export default function AdhererPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const supabase = createBrowserSupabaseClient();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

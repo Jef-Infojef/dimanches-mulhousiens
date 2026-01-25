@@ -18,7 +18,7 @@ export function Header() {
   const navLinks = [
     { href: "/#concept", label: "Le Concept" },
     { href: "/#dates", label: "Calendrier" },
-    { href: "/#exposants", label: "Exposants" },
+    { href: "/annuaire", label: "Annuaire" },
     { href: "/contact", label: "Contact" },
   ];
 
